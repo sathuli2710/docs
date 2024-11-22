@@ -1,0 +1,75 @@
+---
+title: Output Based Examples
+description: "This document contains output based examples with javascript"
+---
+
+<img
+  className="block dark:hidden"
+  src="https://www.tutorialrepublic.com/lib/images/javascript-illustration.png"
+  alt="Hero Light"
+/>
+<img
+  className="hidden dark:block"
+  src="https://www.tutorialrepublic.com/lib/images/javascript-illustration.png"
+  alt="Hero Dark"
+/>
+
+## Problem 1
+Using .then() with Promise.resolve()
+
+### Program
+
+```javascript problem1.js
+Promise.resolve("data").then((result) => {
+  console.log(result);
+});
+console.log("Sync Code"); 
+```
+### Output
+
+````
+Sync Code
+data
+````
+### Explanation
+
+When you use .then(), the JavaScript engine does the following:
+	1.	Register a Callback:<br />
+        * .then() attaches a callback function to a Promise.
+        * This callback is scheduled to execute when the Promise is resolved.
+	2.	Execution in the Event Loop:<br />
+	    * Once the Promise resolves, the callback is queued in the microtask queue.
+	    * The JavaScript engine completes the current call stack, then processes tasks in the microtask queue before moving to the macrotask queue.
+
+## Problem 2
+Using await with Promise.resolve()
+
+### Program
+
+```javascript problem2.js
+async function example() {
+  console.log("Before await");
+  const result = await Promise.resolve("data");
+  console.log(result);
+}
+example();
+console.log("Sync Code");
+```
+### Output
+
+````
+Before await
+Sync Code
+data
+````
+### Explanation
+
+When the JavaScript engine encounters await:
+	1.	Pause Execution:<br />
+	    * The await keyword pauses the execution of the function it is in until the Promise is resolved or rejected.
+	    * The function is split into “before await” and “after await.”
+	2.	Return Control to the Event Loop:<br />
+	    * While waiting for the Promise, the function’s execution is suspended, and the JavaScript engine moves to the next task in the call stack.
+	3.	Resume Execution:<br />
+	    * Once the Promise is resolved, the engine schedules the rest of the async function (after await) as a microtask.
+	    * Execution continues from where it was paused.

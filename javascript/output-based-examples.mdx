@@ -96,7 +96,7 @@ Using IIFE, async, await, Promise, setTimeout together
 ```javascript
 const slowFunction = () => {
     console.log("Starts Slow Function");
-    return Promise(res => {
+    return new Promise(res => {
         console.log("Promise Created")
         setTimeout(() => {
             console.log("Calling SetTimeout")

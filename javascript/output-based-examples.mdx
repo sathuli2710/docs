@@ -11,7 +11,7 @@ Using .then() with Promise.resolve()
 
 ### Program
 
-```javascript problem1.js
+```javascript
 Promise.resolve("data").then((result) => {
   console.log(result);
 });
@@ -47,7 +47,7 @@ Using await with Promise.resolve()
 
 ### Program
 
-```javascript problem2.js
+```javascript
 async function example() {
   console.log("Before await");
   const result = await Promise.resolve("data");
@@ -75,6 +75,8 @@ When the JavaScript engine encounters await:
 
    * The function is split into “before await” and “after await.”
 
+   * I takes the code after await and queue it to the microtask queue(but in a deferred state) which will only be resumed only when the Promise resolves or rejects.
+
 2. Return Control to the Event Loop:
 
    * While waiting for the Promise, the function’s execution is suspended, and the JavaScript engine moves to the next task in the call stack.
@@ -84,3 +86,57 @@ When the JavaScript engine encounters await:
    * Once the Promise is resolved, the engine schedules the rest of the async function (after await) as a microtask.
 
    * Execution continues from where it was paused.
+
+## Problem 3
+
+Using IIFE, async, await, Promise, setTimeout together
+
+### Program
+
+```javascript
+const slowFunction = () => {
+    console.log("Starts Slow Function");
+    return new Promise(res => {
+        console.log("Promise Created")
+        setTimeout(() => {
+            console.log("Calling SetTimeout")
+            res()
+        }, 500);
+        console.log("Promise Completed")
+    })
+}
+
+(async () => {
+    console.log("Inside IIFE");
+    await slowFunction()
+    .then(() => console.log("Then block"))
+    .catch(() => console.log("Catch Block"))
+    .finally(() => console.log("Finally Block"))
+    
+    console.log("Completed Calling slowFunction")
+})()
+
+console.log("Main")
+```
+
+### Output
+
+```
+Inside IIFE
+Starts Slow Function
+Promise Created
+Promise Completed
+Main
+Calling SetTimeout
+Then block
+Finally Block
+Completed Calling slowFunction
+```
+
+### Explanation
+
+* As soon as we see and IIFE (Immediately Invoked Function Execution), we may think JS is going to treat in a special way, but I am really sorry it is not going to do that
+
+  * An IIFE is a way to efficiently define and call a function without the use of any variables and deal with any kind of variable conflicts or come up with a very attractive name for the function (e.g., function toAddTwoNumberIfTheyAreEvenElseReturnFirst() \{} 🤯)
+
+  *

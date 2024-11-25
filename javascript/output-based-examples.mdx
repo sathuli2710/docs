@@ -139,4 +139,23 @@ Completed Calling slowFunction
 
   * An IIFE is a way to efficiently define and call a function without the use of any variables and deal with any kind of variable conflicts or come up with a very attractive name for the function (e.g., function toAddTwoNumberIfTheyAreEvenElseReturnFirst() \{} 🤯)
 
-  *
+
+
+## Program 3
+
+### Program
+
+```javascript
+new Promise(res => {
+    console.log("Inside Promise")
+    res(10)
+}).then(() => {
+    console.log("Then block")
+})
+
+setTimeout(() => {
+    console.log("Inside SetTimeout")
+}, 500)
+
+console.log("Main")
+```

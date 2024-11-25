@@ -11,7 +11,7 @@ Using .then() with Promise.resolve()
 
 ### Program
 
-```javascript problem1.js
+```javascript
 Promise.resolve("data").then((result) => {
   console.log(result);
 });
@@ -47,7 +47,7 @@ Using await with Promise.resolve()
 
 ### Program
 
-```javascript problem2.js
+```javascript
 async function example() {
   console.log("Before await");
   const result = await Promise.resolve("data");
@@ -74,6 +74,8 @@ When the JavaScript engine encounters await:
    * The await keyword pauses the execution of the function it is in until the Promise is resolved or rejected.
 
    * The function is split into “before await” and “after await.”
+
+   * I takes the code after await and queue it to the microtask queue(but in a deferred state) which will only be resumed only when the Promise resolves or rejects.
 
 2. Return Control to the Event Loop:
 
